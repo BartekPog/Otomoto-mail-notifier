@@ -1,0 +1,4 @@
+price-check
+.env
+*.log
+__pycache__
