@@ -7,11 +7,11 @@ from send_email import send_email
 
 options = webdriver.ChromeOptions()
 options.add_argument('--incognito')
-# options.add_argument('--headless')
+options.add_argument('--headless')
 # options.add_argument('--ignore-certificate-errors')
 
-URL=os.getenv("OFFERS_URL")
-# URL=os.getenv("TEST_OFFERS_URL")
+# URL=os.getenv("OFFERS_URL")
+URL=os.getenv("TEST_OFFERS_URL")
 
 browser = webdriver.Chrome(chrome_options=options)
 browser.get(URL)
@@ -30,7 +30,7 @@ if len(change_warinings) == 0:
     time.sleep(1)
     current_url = browser.current_url
     print(current_url)
-    send_email(offer_url=current_url, title="FABIA", receiver_mail=os.getenv("MAIL_RECEIVER"))
+    send_email(offer_url=current_url, title="FABIA", receiver_email=os.getenv("MAIL_RECEIVER"))
 
 # print(len(change_warinings))
 # source = browser.page_source

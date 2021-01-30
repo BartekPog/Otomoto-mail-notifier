@@ -2,7 +2,7 @@ import os
 import smtplib, ssl
 
 
-def send_email(offer_url:str, title:str, receiver_mail:str):
+def send_email(offer_url:str, title:str, receiver_email:str):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = os.getenv('GMAIL_USER')   # Enter your address
@@ -18,14 +18,17 @@ def send_email(offer_url:str, title:str, receiver_mail:str):
     Ta wiadomość została wygenerowana automatycznie. ~Bart
     """
 
-    if len(send_email) == 0:
+    if len(sender_email) == 0:
         raise Exception("Sender mail cannot be empty")
 
     if len(password) == 0:
         raise Exception("Sender password cannot be empty")
 
-    if len(receiver_mail) == 0:
+    if len(receiver_email) == 0:
         raise Exception("Receiver mail cannot be empty")
+
+    print(f"SENDING FROM {sender_email}, to {receiver_email} message:")
+    print(message)
 
     # Create a secure SSL context
     context = ssl.create_default_context()
@@ -34,4 +37,6 @@ def send_email(offer_url:str, title:str, receiver_mail:str):
         server.login(sender_email, password)
         
         server.sendmail(sender_email, receiver_email, message.encode("utf8"))
+
+    print("MESSAGE SENT")
 
