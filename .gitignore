@@ -1,4 +1,4 @@
-price-check
 .env
+.env-src
 *.log
 __pycache__

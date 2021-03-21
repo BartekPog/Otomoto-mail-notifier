@@ -1,38 +1,51 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import os
 
+from settings import getConfig
 from send_email import send_email
 
-options = webdriver.ChromeOptions()
-options.add_argument('--incognito')
-options.add_argument('--headless')
-# options.add_argument('--ignore-certificate-errors')
 
-# URL=os.getenv("OFFERS_URL")
-URL=os.getenv("TEST_OFFERS_URL")
+def runSearch():
+    conf = getConfig()
 
-browser = webdriver.Chrome(chrome_options=options)
-browser.get(URL)
+    chromeOptions = webdriver.ChromeOptions()
+    chromeOptions.add_argument('--incognito')
+    chromeOptions.add_argument('--headless')
 
-time.sleep(2)
+    browser = webdriver.Chrome(chrome_options=chromeOptions)
+    browser.get(conf["offersUrl"])
 
-accept_button = browser.find_element_by_id("onetrust-accept-btn-handler").click()
-time.sleep(1)
+    time.sleep(2)
 
-change_warinings = browser.find_elements_by_class_name("criteriaChangeWarning")
-
-if len(change_warinings) == 0:
-    print("ZNALEZIONO")
-    browser.find_element_by_class_name("offer-title__link").click()
-
+    accept_button = browser.find_element_by_id(
+        "onetrust-accept-btn-handler").click()
     time.sleep(1)
-    current_url = browser.current_url
-    print(current_url)
-    send_email(offer_url=current_url, title="FABIA", receiver_email=os.getenv("MAIL_RECEIVER"))
 
-# print(len(change_warinings))
-# source = browser.page_source
+    change_warinings = browser.find_elements_by_class_name(
+        "criteriaChangeWarning")
 
-browser.quit()
+    offers = browser.find_elements_by_class_name(
+        "offer-title__link")
+
+    if len(change_warinings) == 0 and len(offers) > 0:
+
+        offers[0].click()
+
+        time.sleep(1)
+        current_url = browser.current_url
+
+        print("ZNALEZIONO")
+        print(current_url)
+        send_email(
+            offer_url=current_url,
+            title="OTOMOTO-SEARCH",
+            receiver_email=conf["receiverEmail"],
+            sender_email=conf["senderEmail"],
+            sender_password=conf["senderPassword"])
+
+    browser.quit()
+
+
+if __name__ == '__main__':
+    runSearch()
