@@ -1,4 +1,7 @@
 .env
-.env-src
+.env-src.sh
 *.log
+__pycache__.env
+.vscode
+*/__pycache__
 __pycache__

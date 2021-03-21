@@ -3,18 +3,18 @@ import smtplib
 import ssl
 
 
-def send_email(offer_url: str, title: str, receiver_email: str, send_email: str, sender_password: str):
+def send_email(offer_url: str, title: str, receiver_email: str, sender_email: str, sender_password: str):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
 
-    message = f"""\
-    Subject: Potencjalne auto
+    message = f"""Subject: Potential car
 
     
-    Link do oferty: {offer_url}
-    Obczaj sb 
+    
+    Offer link: {offer_url}
+    Take a look
 
-    Ta wiadomość została wygenerowana automatycznie. ~Bart
+    This message was generated automatically ~Bart
     """
 
     print(f"SENDING FROM {sender_email}, to {receiver_email} message:")

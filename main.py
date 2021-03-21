@@ -1,9 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import time
 
-from settings import getConfig
-from send_email import send_email
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+from src.settings import getConfig
+from src.send_email import send_email
 
 
 def runSearch():
@@ -29,13 +30,12 @@ def runSearch():
         "offer-title__link")
 
     if len(change_warinings) == 0 and len(offers) > 0:
-
         offers[0].click()
 
         time.sleep(1)
         current_url = browser.current_url
 
-        print("ZNALEZIONO")
+        print("Found")
         print(current_url)
         send_email(
             offer_url=current_url,
@@ -43,7 +43,8 @@ def runSearch():
             receiver_email=conf["receiverEmail"],
             sender_email=conf["senderEmail"],
             sender_password=conf["senderPassword"])
-
+    else:
+        print("Not found")
     browser.quit()
 
 
